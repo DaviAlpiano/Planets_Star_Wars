@@ -17,4 +17,6 @@ export type Planet = {
 
 export type PlanetsContextType = {
   planets: Planet[],
+  planetsFilter: Planet[],
+  setPlanetsFilter: React.Dispatch<React.SetStateAction<Planet[]>>,
 };

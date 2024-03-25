@@ -8,6 +8,7 @@ type ThemeProviderProps = {
 
 function PlanetsProvider({ children }: ThemeProviderProps) {
   const [planets, setPlanets] = useState<Planet[]>([]);
+  const [planetsFilter, setPlanetsFilter] = useState<Planet[]>([]);
 
   useEffect(() => {
     const FetchApi = async () => {
@@ -19,6 +20,7 @@ function PlanetsProvider({ children }: ThemeProviderProps) {
           return planet;
         });
         setPlanets(noResidents);
+        setPlanetsFilter(noResidents);
       } catch (erro) {
         console.error(erro);
       }
@@ -28,7 +30,7 @@ function PlanetsProvider({ children }: ThemeProviderProps) {
   }, []);
 
   return (
-    <PlanetsContext.Provider value={ { planets } }>
+    <PlanetsContext.Provider value={ { planets, planetsFilter, setPlanetsFilter } }>
       { children }
     </PlanetsContext.Provider>
   );
