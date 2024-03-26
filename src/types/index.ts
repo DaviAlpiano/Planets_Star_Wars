@@ -20,3 +20,9 @@ export type PlanetsContextType = {
   planetsFilter: Planet[],
   setPlanetsFilter: React.Dispatch<React.SetStateAction<Planet[]>>,
 };
+
+export type InfoFilter = {
+  coluna: string,
+  operador: string,
+  number: number,
+};
