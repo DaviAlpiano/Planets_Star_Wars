@@ -3,7 +3,7 @@ import PlanetsContext from '../context/PlanetsContext';
 import { InfoFilter, Planet } from '../types';
 
 function Filter() {
-  const { planets, setPlanetsFilter } = useContext(PlanetsContext);
+  const { planets, planetsFilter, setPlanetsFilter } = useContext(PlanetsContext);
   const [info, setInfo] = useState<InfoFilter>({ coluna: 'population',
     operador: 'maior que',
     number: 0 });
@@ -24,18 +24,21 @@ function Filter() {
     let filteredPlanets;
     switch (info.operador) {
       case 'maior que':
-        filteredPlanets = planets
-          .filter((planet:Planet) => Number(planet[info.coluna]) > Number(info.number));
+        filteredPlanets = planetsFilter
+          .filter((planet:Planet) => Number(planet[info
+            .coluna as keyof Planet]) > Number(info.number));
         setPlanetsFilter(filteredPlanets);
         break;
       case 'menor que':
-        filteredPlanets = planets
-          .filter((planet:Planet) => Number(planet[info.coluna]) < Number(info.number));
+        filteredPlanets = planetsFilter
+          .filter((planet:Planet) => Number(planet[info
+            .coluna as keyof Planet]) < Number(info.number));
         setPlanetsFilter(filteredPlanets);
         break;
       case 'igual a':
-        filteredPlanets = planets
-          .filter((planet:Planet) => Number(planet[info.coluna]) === Number(info.number));
+        filteredPlanets = planetsFilter
+          .filter((planet:Planet) => Number(planet[info
+            .coluna as keyof Planet]) === Number(info.number));
         setPlanetsFilter(filteredPlanets);
         break;
       default:
