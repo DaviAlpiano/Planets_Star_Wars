@@ -26,3 +26,9 @@ export type InfoFilter = {
   operador: string,
   number: number,
 };
+
+export type TypeFilter = {
+  coluna: string,
+  comparação: string,
+  valor: string,
+};
