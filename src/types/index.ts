@@ -15,20 +15,25 @@ export type Planet = {
   url: string;
 };
 
+export type ColunaType = 'population' |
+'orbital_period' |
+'diameter' |
+'rotation_period' |
+'surface_water';
+
 export type PlanetsContextType = {
   planets: Planet[],
-  planetsFilter: Planet[],
-  setPlanetsFilter: React.Dispatch<React.SetStateAction<Planet[]>>,
+  colunas: string[],
+  filterList:InfoFilter[],
+  name:string,
+  filteredName: (param:string) => void,
+  addFilter: (param:InfoFilter) => void,
+  removeFilter: (param:ColunaType) => void,
+  removeAllFilters: () => void,
 };
 
 export type InfoFilter = {
-  coluna: string,
+  coluna: ColunaType,
   operador: string,
   number: number,
-};
-
-export type TypeFilter = {
-  coluna: string,
-  comparação: string,
-  valor: string,
 };

@@ -1,20 +1,23 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
-import { InfoFilter, Planet, TypeFilter } from '../types';
+import { ColunaType, InfoFilter } from '../types';
 
 function Filter() {
-  const { planets, planetsFilter, setPlanetsFilter } = useContext(PlanetsContext);
+  const { colunas,
+    filterList,
+    addFilter,
+    removeFilter,
+    removeAllFilters,
+    filteredName } = useContext(PlanetsContext);
   const [info, setInfo] = useState<InfoFilter>({ coluna: 'population',
     operador: 'maior que',
     number: 0 });
-  const [colunas, setColunas] = useState<string[]>([
-    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
-  const [filter, setFilter] = useState<TypeFilter[]>([]);
+
+  const coluns = filterList.map(({ coluna }) => coluna) as string[];
 
   function handleChange(e:React.ChangeEvent<HTMLInputElement>) {
     const valor = e.currentTarget.value;
-    const newPlanets = planets.filter((planet) => planet.name.includes(valor));
-    setPlanetsFilter(newPlanets);
+    filteredName(valor);
   }
 
   function infoChange(e:React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -23,31 +26,19 @@ function Filter() {
     setInfo({ ...info, [filterId]: valor });
   }
 
-  function filterChange() {
-    const filteredPlanets = planetsFilter.filter((planet) => {
-      const planetValue = Number(planet[info.coluna as keyof Planet]);
-      const filterValue = Number(info.number);
-
-      switch (info.operador) {
-        case 'maior que':
-          return planetValue > filterValue;
-        case 'menor que':
-          return planetValue < filterValue;
-        case 'igual a':
-          return planetValue === filterValue;
-        default:
-          return false;
-      }
-    });
-    const newinfos = colunas.filter((coluna) => coluna !== info.coluna);
-    setPlanetsFilter(filteredPlanets);
-    setInfo({ ...info, coluna: newinfos[0] });
-    setColunas(newinfos);
-    setFilter([...filter, {
-      coluna: info.coluna,
-      comparação: info.operador,
-      valor: info.number.toString() }]);
+  function filtered() {
+    addFilter(info);
   }
+
+  function removedFilter(e:ColunaType) {
+    removeFilter(e);
+  }
+
+  const columfiltered = colunas.filter((elemente) => !coluns.includes(elemente));
+
+  useEffect(() => {
+    setInfo({ ...info, coluna: columfiltered[0] as ColunaType });
+  }, [filterList]);
 
   return (
     <div>
@@ -61,7 +52,7 @@ function Filter() {
             name="coluna"
             id="coluna"
           >
-            {colunas.map((coluna) => (
+            {columfiltered.map((coluna) => (
               <option
                 key={ coluna }
                 value={ coluna }
@@ -90,17 +81,34 @@ function Filter() {
           value={ info.number }
           data-testid="value-filter"
         />
-        <button onClick={ filterChange } data-testid="button-filter">Filter</button>
+        <button
+          onClick={ filtered }
+          data-testid="button-filter"
+          disabled={ columfiltered.length === 0 }
+        >
+          Filter
+        </button>
+        <button
+          disabled={ filterList.length === 0 }
+          onClick={ removeAllFilters }
+          data-testid="button-remove-filters"
+        >
+          Remover todos filtros
+        </button>
       </div>
       <div>
-        {filter.map((filte) => (
-          <h3 key={ filte.coluna }>
-            {filte.coluna}
-            {' '}
-            {filte.comparação}
-            {' '}
-            {filte.valor}
-          </h3>))}
+        {filterList.map((filte) => (
+          <div key={ filte.coluna } data-testid="filter">
+            <h3>
+              {filte.coluna}
+              {' '}
+              {filte.operador}
+              {' '}
+              {filte.number}
+            </h3>
+            <button onClick={ () => removedFilter(filte.coluna) }>Excluir</button>
+          </div>
+        ))}
       </div>
     </div>
   );

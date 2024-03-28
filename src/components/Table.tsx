@@ -3,7 +3,26 @@ import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
   const context = useContext(PlanetsContext);
-  const { planetsFilter } = context;
+  const { planets, filterList, name } = context;
+
+  const filters = () => (
+    planets.filter((info) => info.name.toLowerCase()
+      .includes(name.toLowerCase()))
+      .filter((planet) => (
+        filterList.every(({ coluna, operador, number }) => {
+          switch (operador) {
+            case 'maior que':
+              return Number(planet[coluna]) > Number(number);
+            case 'menor que':
+              return Number(planet[coluna]) < Number(number);
+            case 'igual a':
+              return Number(planet[coluna]) === Number(number);
+            default:
+              return false;
+          }
+        })
+      ))
+  );
 
   return (
     <div>
@@ -26,7 +45,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {planetsFilter.map((planet) => (
+          {filters().map((planet) => (
             <tr key={ planet.name }>
               <th>{planet.name}</th>
               <th>{planet.rotation_period}</th>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PlanetsContext from './PlanetsContext';
-import { Planet } from '../types';
+import { ColunaType, InfoFilter, Planet } from '../types';
 
 type ThemeProviderProps = {
   children: React.ReactNode;
@@ -8,7 +8,15 @@ type ThemeProviderProps = {
 
 function PlanetsProvider({ children }: ThemeProviderProps) {
   const [planets, setPlanets] = useState<Planet[]>([]);
-  const [planetsFilter, setPlanetsFilter] = useState<Planet[]>([]);
+  const [filterList, setFilterList] = useState<InfoFilter[]>([]);
+  const [name, setName] = useState<string>('');
+
+  const colunas = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water'];
 
   useEffect(() => {
     const FetchApi = async () => {
@@ -20,7 +28,6 @@ function PlanetsProvider({ children }: ThemeProviderProps) {
           return planet;
         });
         setPlanets(noResidents);
-        setPlanetsFilter(noResidents);
       } catch (erro) {
         console.error(erro);
       }
@@ -29,8 +36,35 @@ function PlanetsProvider({ children }: ThemeProviderProps) {
     FetchApi();
   }, []);
 
+  const filteredName = (param:string) => {
+    setName(param);
+  };
+
+  const addFilter = (filter:InfoFilter) => {
+    setFilterList((prevFilter) => [...prevFilter, filter]);
+  };
+
+  const removeFilter = (coluna: ColunaType) => {
+    setFilterList(filterList.filter((filter) => filter.coluna !== coluna));
+  };
+
+  const removeAllFilters = () => {
+    setFilterList([]);
+  };
+
+  const value = {
+    planets,
+    colunas,
+    filterList,
+    name,
+    filteredName,
+    addFilter,
+    removeFilter,
+    removeAllFilters,
+  };
+
   return (
-    <PlanetsContext.Provider value={ { planets, planetsFilter, setPlanetsFilter } }>
+    <PlanetsContext.Provider value={ value }>
       { children }
     </PlanetsContext.Provider>
   );
