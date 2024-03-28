@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PlanetsContext from './PlanetsContext';
-import { ColunaType, InfoFilter, Planet } from '../types';
+import { ColunaType, InfoFilter, InfoOrdem, Planet } from '../types';
 
 type ThemeProviderProps = {
   children: React.ReactNode;
@@ -10,6 +10,11 @@ function PlanetsProvider({ children }: ThemeProviderProps) {
   const [planets, setPlanets] = useState<Planet[]>([]);
   const [filterList, setFilterList] = useState<InfoFilter[]>([]);
   const [name, setName] = useState<string>('');
+  const [ordenando, setOrdenando] = useState<InfoOrdem>(
+    { ordenar: '',
+      ordem: '',
+    },
+  );
 
   const colunas = [
     'population',
@@ -52,15 +57,21 @@ function PlanetsProvider({ children }: ThemeProviderProps) {
     setFilterList([]);
   };
 
+  const filterOrder = (e:InfoOrdem) => {
+    setOrdenando(e);
+  };
+
   const value = {
     planets,
     colunas,
     filterList,
     name,
+    ordenando,
     filteredName,
     addFilter,
     removeFilter,
     removeAllFilters,
+    filterOrder,
   };
 
   return (

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
-import { ColunaType, InfoFilter } from '../types';
+import { ColunaType, InfoFilter, InfoOrdem } from '../types';
 
 function Filter() {
   const { colunas,
@@ -8,10 +8,18 @@ function Filter() {
     addFilter,
     removeFilter,
     removeAllFilters,
-    filteredName } = useContext(PlanetsContext);
-  const [info, setInfo] = useState<InfoFilter>({ coluna: 'population',
-    operador: 'maior que',
-    number: 0 });
+    filteredName,
+    filterOrder } = useContext(PlanetsContext);
+  const [info, setInfo] = useState<InfoFilter>(
+    { coluna: 'population',
+      operador: 'maior que',
+      number: 0 },
+  );
+  const [ordenando, setOrdenando] = useState<InfoOrdem>(
+    { ordenar: 'population',
+      ordem: '',
+    },
+  );
 
   const coluns = filterList.map(({ coluna }) => coluna) as string[];
 
@@ -39,6 +47,16 @@ function Filter() {
   useEffect(() => {
     setInfo({ ...info, coluna: columfiltered[0] as ColunaType });
   }, [filterList]);
+
+  function orderChange(e:React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const ordem = e.currentTarget.name;
+    const valor = e.currentTarget.value;
+    setOrdenando({ ...ordenando, [ordem]: valor });
+  }
+
+  function addOrdem() {
+    filterOrder(ordenando);
+  }
 
   return (
     <div>
@@ -88,14 +106,62 @@ function Filter() {
         >
           Filter
         </button>
+      </div>
+      <div>
+        <label htmlFor="operador">
+          Ordenar
+          <select
+            onChange={ orderChange }
+            data-testid="column-sort"
+            name="ordenar"
+            id="ordenar"
+          >
+            {colunas.map((colu) => (
+              <option
+                key={ colu }
+                value={ colu }
+              >
+                {colu}
+              </option>))}
+          </select>
+        </label>
+        <input
+          data-testid="column-sort-input-asc"
+          name="ordem"
+          type="radio"
+          id="ASC"
+          onChange={ orderChange }
+          value="ASC"
+        />
+        <label htmlFor="ASC">
+          Ascendente
+        </label>
+        <input
+          data-testid="column-sort-input-desc"
+          name="ordem"
+          type="radio"
+          id="DESC"
+          onChange={ orderChange }
+          value="DESC"
+        />
+        <label htmlFor="DESC">
+          Descendente
+        </label>
         <button
-          disabled={ filterList.length === 0 }
-          onClick={ removeAllFilters }
-          data-testid="button-remove-filters"
+          data-testid="column-sort-button"
+          disabled={ ordenando.ordem === '' }
+          onClick={ addOrdem }
         >
-          Remover todos filtros
+          Ordenar
         </button>
       </div>
+      <button
+        disabled={ filterList.length === 0 }
+        onClick={ removeAllFilters }
+        data-testid="button-remove-filters"
+      >
+        Remover todos filtros
+      </button>
       <div>
         {filterList.map((filte) => (
           <div key={ filte.coluna } data-testid="filter">

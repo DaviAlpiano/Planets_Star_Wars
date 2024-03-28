@@ -1,9 +1,12 @@
 import { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import { Planet } from '../types';
 
 function Table() {
   const context = useContext(PlanetsContext);
-  const { planets, filterList, name } = context;
+  const { planets, filterList, name, ordenando } = context;
+  const valor = ordenando.ordenar;
+  const aord = ordenando.ordem;
 
   const filters = () => (
     planets.filter((info) => info.name.toLowerCase()
@@ -23,6 +26,41 @@ function Table() {
         })
       ))
   );
+
+  const ordemASC = (planetas:Planet[]) => (
+    planetas.sort((a:Planet, b:Planet) => {
+      if (a[valor] === 'unknown' && b[valor] !== 'unknown') {
+        return 1;
+      } if (b[valor] === 'unknown' && a[valor] !== 'unknown') {
+        return -1;
+      }
+      return a[valor] - b[valor];
+    })
+  );
+
+  const ordemDESC = (planetas:Planet[]) => (
+    planetas.sort((a:Planet, b:Planet) => {
+      if (a[valor] === 'unknown' && b[valor] !== 'unknown') {
+        return 1;
+      } if (b[valor] === 'unknown' && a[valor] !== 'unknown') {
+        return -1;
+      }
+      return b[valor] - a[valor];
+    })
+  );
+
+  const ordem = (planetas:Planet[]) => {
+    if (aord === 'ASC') {
+      const ordenado = ordemASC(planetas);
+
+      return ordenado;
+    }
+    if (aord === 'DESC') {
+      const ordenado = ordemDESC(planetas);
+      return ordenado;
+    }
+    return planetas;
+  };
 
   return (
     <div>
@@ -45,9 +83,9 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {filters().map((planet) => (
+          {ordem(filters()).map((planet) => (
             <tr key={ planet.name }>
-              <th>{planet.name}</th>
+              <th data-testid="planet-name">{planet.name}</th>
               <th>{planet.rotation_period}</th>
               <th>{planet.orbital_period}</th>
               <th>{planet.diameter}</th>

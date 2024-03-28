@@ -26,14 +26,21 @@ export type PlanetsContextType = {
   colunas: string[],
   filterList:InfoFilter[],
   name:string,
+  ordenando: InfoOrdem,
   filteredName: (param:string) => void,
   addFilter: (param:InfoFilter) => void,
   removeFilter: (param:ColunaType) => void,
   removeAllFilters: () => void,
+  filterOrder: (param:InfoOrdem) => void,
 };
 
 export type InfoFilter = {
   coluna: ColunaType,
   operador: string,
   number: number,
+};
+
+export type InfoOrdem = {
+  ordenar: string,
+  ordem: string,
 };
