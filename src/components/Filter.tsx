@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import { ColunaType, InfoFilter, InfoOrdem } from '../types';
+import style from './Filter.module.css';
 
 function Filter() {
   const { colunas,
@@ -59,11 +60,18 @@ function Filter() {
   }
 
   return (
-    <div>
-      <input type="text" data-testid="name-filter" onChange={ handleChange } />
-      <div>
+    <div className={style.main}>
+      <input
+      className={style.inputPlanet}
+      type="text"
+      data-testid="name-filter"
+      onChange={ handleChange }
+      placeholder='Nome do Planeta' />
+      <div className={style.filtro}>
+        <div className={style.label}>
         <label htmlFor="coluna">
           Coluna
+        </label>
           <select
             onChange={ infoChange }
             data-testid="column-filter"
@@ -78,9 +86,11 @@ function Filter() {
                 {coluna}
               </option>))}
           </select>
-        </label>
+        </div>
+        <div className={style.label}>
         <label htmlFor="operador">
           Operador
+        </label>
           <select
             onChange={ infoChange }
             data-testid="comparison-filter"
@@ -91,7 +101,7 @@ function Filter() {
             <option value="menor que">menor que</option>
             <option value="igual a">igual a</option>
           </select>
-        </label>
+        </div>
         <input
           onChange={ infoChange }
           type="number"
@@ -102,14 +112,17 @@ function Filter() {
         <button
           onClick={ filtered }
           data-testid="button-filter"
+          className={style.buttonFilter}
           disabled={ columfiltered.length === 0 }
         >
           Filter
         </button>
       </div>
-      <div>
+      <div className={style.ordem}>
+      <div className={style.label}>
         <label htmlFor="operador">
           Ordenar
+        </label>
           <select
             onChange={ orderChange }
             data-testid="column-sort"
@@ -124,10 +137,11 @@ function Filter() {
                 {colu}
               </option>))}
           </select>
-        </label>
+      </div>
         <input
           data-testid="column-sort-input-asc"
           name="ordem"
+          className={style.ascordesc}
           type="radio"
           id="ASC"
           onChange={ orderChange }
@@ -140,6 +154,7 @@ function Filter() {
           data-testid="column-sort-input-desc"
           name="ordem"
           type="radio"
+          className={style.ascordesc}
           id="DESC"
           onChange={ orderChange }
           value="DESC"
@@ -162,9 +177,12 @@ function Filter() {
       >
         Remover todos filtros
       </button>
-      <div>
+      <div className={style.filtros}>
         {filterList.map((filte) => (
-          <div key={ filte.coluna } data-testid="filter">
+          <div
+          className={style.subFiltros}
+          key={ filte.coluna }
+          data-testid="filter">
             <h3>
               {filte.coluna}
               {' '}

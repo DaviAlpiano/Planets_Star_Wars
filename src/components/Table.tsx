@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import { Planet } from '../types';
+import style from './Table.module.css'
 
 function Table() {
   const context = useContext(PlanetsContext);
@@ -63,7 +64,7 @@ function Table() {
   };
 
   return (
-    <div>
+    <div className={style.table}>
       <table border={ 1 }>
         <thead>
           <tr>
@@ -85,19 +86,19 @@ function Table() {
         <tbody>
           {ordem(filters()).map((planet) => (
             <tr key={ planet.name }>
-              <th data-testid="planet-name">{planet.name}</th>
-              <th>{planet.rotation_period}</th>
-              <th>{planet.orbital_period}</th>
-              <th>{planet.diameter}</th>
-              <th>{planet.climate}</th>
-              <th>{planet.gravity}</th>
-              <th>{planet.terrain}</th>
-              <th>{planet.surface_water}</th>
-              <th>{planet.population}</th>
-              <th>{planet.films}</th>
-              <th>{planet.created}</th>
-              <th>{planet.edited}</th>
-              <th>{planet.url}</th>
+              <td data-testid="planet-name">{planet.name}</td>
+              <td>{planet.rotation_period}</td>
+              <td>{planet.orbital_period}</td>
+              <td>{planet.diameter}</td>
+              <td>{planet.climate}</td>
+              <td>{planet.gravity}</td>
+              <td>{planet.terrain}</td>
+              <td>{planet.surface_water}</td>
+              <td>{planet.population}</td>
+              <td>{planet.films.map((film) => <p>{film}</p>)}</td>
+              <td>{planet.created}</td>
+              <td>{planet.edited}</td>
+              <td>{planet.url}</td>
             </tr>))}
         </tbody>
       </table>

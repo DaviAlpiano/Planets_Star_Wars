@@ -1,0 +1,64 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inputPlanet {
+    width: 500px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.filtro {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+}
+
+.ordem {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.buttonFilter{
+    height: 60px;
+    width: 60px;
+    font-size: 15px;
+}
+
+.ascordesc{
+    appearance: none;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid white;
+    padding: 7px;
+}
+
+.ascordesc:checked {
+    background-color: black;
+    border: 2px solid transparent;
+    box-shadow: 0 0 0 2px yellow;
+  }
+
+.filtros {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.subFiltros {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 5px;
+}
