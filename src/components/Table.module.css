@@ -4,7 +4,7 @@
 }
 
 table{
-    width: 60%;
+    width: 100%;
     border-radius: 10px;
 }
 
@@ -20,6 +20,16 @@ th, td {
 
 th {
     width: 50px;
+}
+
+td {
+    font-size: small;
+    text-shadow:
+    -1px -1px 0 black,  
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black; 
+  border-color: black;
 }
 
 p {
