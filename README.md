@@ -1,11 +1,31 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
-![img](projectIntro.gif)
+# My Project
+
+# Contexto
+Este projeto trata-se de um site sobre os planetas de Star Wars para estudos sobre filtragem.
+
+## Técnologias usadas
+
+Front-end:
+> Desenvolvido usando: React, Context, CSS, HTML, ES
+
+## Instalando Dependências
+ 
+```bash
+npm install
+``` 
+## Executando aplicação
+
+* Para rodar o front-end:
+
+  ```
+    npm start
+  ```
+
+## Executando Testes
+
+* Para rodar todos os testes:
+
+  ```
+    npm test
+  ```
+![img](Intro.gif)
